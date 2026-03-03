@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+🚀 Rashmi Singh | Modern Portfolio Website
+A high-performance, responsive personal portfolio website showcasing the intersection of Data Analytics and Creative Development. This project features a clean UI, smooth scroll animations, and a comprehensive look at my professional journey.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🌟 Overview
+This portfolio is designed to act as a central hub for my professional identity. It highlights my expertise in Electronics and Computer Engineering while showcasing my proficiency in full-stack development and data-driven decision-making.
 
-Currently, two official plugins are available:
+Live Demo
+🔗 [Insert Your Link Here, e.g., rashmi-singh.dev]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✨ Features
+Dynamic Hero Section: Engaging introduction with a typing effect and professional headshot.
 
-## React Compiler
+About Me: Detailed professional summary highlighting my transition from engineering to data-driven solutions.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Service Offerings: Breakdown of core competencies including Web Development, Branding, and Photography.
 
-## Expanding the ESLint configuration
+Interactive Portfolio: A filtered project gallery showcasing software and hardware projects.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Skill Visualization: Animated progress bars for technical skills like Python, SQL, Power BI, and React.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Resume/Timeline: A vertical journey tracking education from Higher Secondary to B.Tech.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Certifications & Blogs: A section dedicated to latest achievements and industry insights.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Contact System: A fully functional, integrated contact form for direct inquiries.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+🛠️ Tech Stack
+Frontend
+Framework: React.js / Next.js (Visualized in the Skills section)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Styling: CSS3 / Tailwind CSS (Responsive and modern design)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Icons: FontAwesome / Lucide React
+
+Development Tools
+Environment: VS Code (as seen in the video)
+
+Version Control: Git & GitHub
+
+📊 Technical Skills
+The portfolio showcases expertise in:
+
+Data: Python, SQL, Power BI, Tableau, Machine Learning.
+
+Web: HTML5/CSS3, JavaScript, React/TypeScript, Node.js.
