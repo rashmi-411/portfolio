@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, ReactNode } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import type { ReactNode, JSX } from "react";
 import { FaLinkedinIn, FaGithub, FaEnvelope } from 'react-icons/fa';
 
 // ── Window width hook (drives ALL responsive logic) ────────────────────────────
@@ -80,7 +81,7 @@ function ParticleCanvas(): JSX.Element {
 }
 
 // ── Scroll-reveal ──────────────────────────────────────────────────────────────
-function useReveal(): [React.RefObject<HTMLDivElement>, boolean] {
+function useReveal(): [React.RefObject<HTMLDivElement | null>, boolean] {
   const ref = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState<boolean>(false);
   useEffect(() => {
@@ -202,13 +203,11 @@ const TIMELINE: TimelineEntry[] = [
   { year: "2019 – 2020", title: "Higher Secondary Education",                  sub: "Saraswati Vidya Mandir",               side: "left" },
 ];
 
+// blog posts; duplicates removed to avoid rendering the same card multiple times
 const BLOGS: BlogPost[] = [
   { date: "Feb 12, 2026", cat: "Design",   title: "The Future of Glassmorphism in UI Design",         color: "#1a1a2e" },
   { date: "Jan 28, 2026", cat: "Dev",      title: "React 19 Features That Will Change How You Build",  color: "#16213e" },
   { date: "Jan 10, 2026", cat: "Branding", title: "Why Visual Consistency Is Your Brand's Superpower", color: "#0f3460" },
-  { date: "Jan 10, 2026", cat: "Branding", title: "Why Visual Consistency Is Your Brand's Superpower", color: "#0f3460" },
-  { date: "Jan 10, 2026", cat: "Branding", title: "Why Visual Consistency Is Your Brand's Superpower", color: "#0f3460" },
-
 ];
 
 // ── Skill bar component ────────────────────────────────────────────────────────
@@ -233,14 +232,17 @@ function SkillBar({ skill, delay }: { skill: Skill; delay: number }): JSX.Elemen
   );
 }
 
-// ── Main ───────────────────────────────────────────────────────────────────────
+// constant used by the typewriter hook; defined outside component to stay stable
+const TYPEWRITER_WORDS: string[] = ["Rashmi Singh"];
+
+// ── Main ─────────────────────────────────────────────────────────────────────
 export default function Portfolio(): JSX.Element {
   const w         = useWindowWidth();
   const isMobile  = w < 640;
   const isTablet  = w >= 640 && w < 1024;
   const isDesktop = w >= 1024;
 
-  const typed = useTypewriter(["Rashmi Singh"]);
+  const typed = useTypewriter(TYPEWRITER_WORDS);
   const [scrolled, setScrolled]   = useState<boolean>(false);
   const [menuOpen, setMenuOpen]   = useState<boolean>(false);
   const [activeFilter, setFilter] = useState<string>("All");
@@ -253,7 +255,13 @@ export default function Portfolio(): JSX.Element {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  useEffect(() => { if (!isMobile) setMenuOpen(false); }, [isMobile]);
+  useEffect(() => {
+    // when we switch out of mobile view close the menu; schedule async to satisfy eslint
+    if (!isMobile) {
+      const id = window.setTimeout(() => setMenuOpen(false), 0);
+      return () => clearTimeout(id);
+    }
+  }, [isMobile]);
 
   const scrollTo = (id: string): void => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -276,6 +284,9 @@ export default function Portfolio(): JSX.Element {
   const SP = `clamp(3.5rem,7vw,8rem) ${HP}`;
 
   const NAV_LINKS: string[] = ["home","about","service","portfolio","skills","resume"];
+
+  // derive filter categories from the data so they stay in sync
+  const filterCategories = ["All", ...Array.from(new Set(PORTFOLIO_ITEMS.map(p => p.category)))];
 
 
   
@@ -580,7 +591,7 @@ export default function Portfolio(): JSX.Element {
           <SectionHeader sub="My Work" title="Portfolio" />
           <Reveal>
             <div style={{ display: "flex", gap: ".6rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "2rem" }}>
-              {["All","Software","Hardware","Photography"].map(f => (
+              {filterCategories.map(f => (
                 <button key={f} className={`f-btn${activeFilter === f ? " act" : ""}`} onClick={() => { setFilter(f); setShowAll(false); }}>{f}</button>
               ))}
             </div>
@@ -717,7 +728,6 @@ export default function Portfolio(): JSX.Element {
 <Reveal delay={0.4}>
               <div
                 style={{
-                  justifyContent: "center",
 
                   display: "flex",
                   gap: ".8rem",
