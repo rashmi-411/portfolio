@@ -482,7 +482,7 @@ export default function Portfolio(): JSX.Element {
                 position: "relative",
               }}>
                 <img
-                  src="./src/photo.jpeg"
+                  src="/photo.jpeg"
                   alt="Rashmi Singh"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
@@ -507,7 +507,7 @@ export default function Portfolio(): JSX.Element {
             <div style={{ position: "relative", display: "inline-block" }}>
               <div style={{ width: isMobile ? 190 : isTablet ? 240 : 295, height: isMobile ? 230 : isTablet ? 290 : 355, borderRadius: 20, background: "linear-gradient(160deg,#1f2937,#374151)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", position: "relative" }}>
                 <img
-                  src="./src/photo.jpeg"
+                  src="/photo.jpeg"
                   alt="Rashmi Singh"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   onError={e => {
