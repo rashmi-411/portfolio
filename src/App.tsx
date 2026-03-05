@@ -132,6 +132,7 @@ interface Service {
   icon: string;
   title: string;
   desc: string;
+  link?: string;
 }
 
 interface PortfolioItem {
@@ -148,7 +149,7 @@ interface TimelineEntry {
   side: "left" | "right";
 }
 
-interface BlogPost {
+interface Certfications {
   date: string;
   cat: string;
   title: string;
@@ -164,10 +165,10 @@ interface Skill {
 const SERVICES: Service[] = [
   { icon: "🎨", title: "Branding", desc: "Crafting unique brand identities that resonate, inspire, and stand the test of time." },
   { icon: "💻", title: "Web Development", desc: "Building fast, scalable, and elegant web applications with modern frameworks." },
-  { icon: "📷", title: "Photography", desc: "Capturing authentic moments and translating brand stories into compelling visuals." },
-  { icon: "✨", title: "Experience Design", desc: "Designing intuitive, delightful user experiences grounded in research and empathy." },
-  { icon: "🧹", title: "Clean Code", desc: "Writing maintainable, well-documented code that scales and performs beautifully." },
-  { icon: "⚡", title: "Fast Support", desc: "Reliable, responsive support to keep your digital presence running flawlessly." },
+  { icon: "✏️", title: "Sketching", desc: "Utilize various mediums to capture the essence of subjects with precision and creative flair", link: "https://www.instagram.com/_philocalist_art_/" },
+  //{ icon: "✨", title: "Experience Design", desc: "Designing intuitive, delightful user experiences grounded in research and empathy." },
+  //{ icon: "🧹", title: "Clean Code", desc: "Writing maintainable, well-documented code that scales and performs beautifully." },
+  //{ icon: "⚡", title: "Fast Support", desc: "Reliable, responsive support to keep your digital presence running flawlessly." },
 ];
 
 const PORTFOLIO_ITEMS: PortfolioItem[] = [
@@ -185,11 +186,12 @@ const SKILLS: Skill[] = [
   // Technical
   { name: "Python", level: 88, category: "Technical" },
   { name: "SQL", level: 82, category: "Technical" },
+  { name: "C/C++", level: 74, category: "Visualization" },
   { name: "Excel / Google Sheets", level: 90, category: "Technical" },
   { name: "Machine Learning", level: 72, category: "Technical" },
   // Visualization
   { name: "Power BI", level: 78, category: "Visualization" },
-  { name: "Tableau", level: 74, category: "Visualization" },
+  
   { name: "Matplotlib / Seaborn", level: 80, category: "Visualization" },
   // Web
   { name: "HTML / CSS", level: 85, category: "Web" },
@@ -204,10 +206,13 @@ const TIMELINE: TimelineEntry[] = [
 ];
 
 // blog posts; duplicates removed to avoid rendering the same card multiple times
-const BLOGS: BlogPost[] = [
-  { date: "Feb 12, 2026", cat: "Design",   title: "The Future of Glassmorphism in UI Design",         color: "#1a1a2e" },
-  { date: "Jan 28, 2026", cat: "Dev",      title: "React 19 Features That Will Change How You Build",  color: "#16213e" },
-  { date: "Jan 10, 2026", cat: "Branding", title: "Why Visual Consistency Is Your Brand's Superpower", color: "#0f3460" },
+const BLOGS: Certfications[] = [
+  { date: "Nov 16, 2025", cat: "Cisco Networking Academy",   title: "Discovering Enterpreneurship",         color: "#0f3460" },
+  { date: "Oct 06, 2025", cat: "Cisco Networking Academy",      title: "CCNA: Introduction to Networks",  color: "#0f3460" },
+  { date: "Aug 22, 2025", cat: "IIRS Outreach Programme ", title: "Advanced Image Analysis for geospatial Professionals", color: "#0f3460" },
+  { date: "Jun 15, 2025", cat: "HP Foundation", title: "Introduction to Cybersecurity Awareness", color: "#0f3460" },
+  { date: "Jun 15, 2025", cat: "HP Foundation", title: "Data Science and Analytics", color: "#0f3460" },
+  { date: "Jan - Apr2024", cat: "NPTEL Online Certifications", title: "Introduction to Industry 4.0 and Industrial IOT", color: "#0f3460" },
 ];
 
 // ── Skill bar component ────────────────────────────────────────────────────────
@@ -573,7 +578,9 @@ export default function Portfolio(): JSX.Element {
           <div style={{ display: "grid", gridTemplateColumns: servicesCols, gap: "1.3rem" }}>
             {SERVICES.map((s, i) => (
               <Reveal key={s.title} delay={i * .06}>
-                <div className="svc-card" style={{ background: "#fff", borderRadius: 16, padding: "1.8rem 1.5rem", boxShadow: "0 4px 20px rgba(0,0,0,.055)", border: "1px solid #f0f0f0", height: "100%" }}>
+                <div className="svc-card"
+                onClick={() => s.link && window.open(s.link, "_blank")}
+                style={{ background: "#fff", borderRadius: 16, padding: "1.8rem 1.5rem", boxShadow: "0 4px 20px rgba(0,0,0,.055)", border: "1px solid #f0f0f0", height: "100%", cursor: s.link ? "pointer" : "default" }}>
                   <div style={{ fontSize: "2rem", marginBottom: ".85rem" }}>{s.icon}</div>
                   <h3 style={{ fontWeight: 700, fontSize: ".98rem", marginBottom: ".5rem" }}>{s.title}</h3>
                   <p style={{ color: "#6b7280", fontSize: ".86rem", lineHeight: 1.75 }}>{s.desc}</p>
