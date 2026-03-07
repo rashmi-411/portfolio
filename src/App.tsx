@@ -142,12 +142,6 @@ interface PortfolioItem {
   color: string;
 }
 
-interface TimelineEntry {
-  year: string;
-  title: string;
-  sub: string;
-  side: "left" | "right";
-}
 
 interface Certfications {
   date: string;
@@ -199,12 +193,41 @@ const SKILLS: Skill[] = [
   { name: "Node.js", level: 65, category: "Web" },
 ];
 
-const TIMELINE: TimelineEntry[] = [
-  { year: "2022 – 2026", title: "B.Tech Electronics and Computer Engineering", sub: "Dronacharya Group of Institutions, GN", side: "left" },
-  { year: "2021 – 2022", title: "Senior Secondary Education",                  sub: "Saraswati Vidya Mandir",               side: "right" },
-  { year: "2019 – 2020", title: "Higher Secondary Education",                  sub: "Saraswati Vidya Mandir",               side: "left" },
+const RESUME_EDU = [
+  {
+    year: "2022 - 2026",
+    title: "B.Tech in Electronics and Computer Engineering",
+    desc: "Focusing on hardware-software integration, AI-driven applications, and antenna design.", //
+  },
+  {
+    year: "2022",
+    title: "Senior Secondary Education, CBSE",
+    desc: "Score: 82.2%",
+    booard: "CBSE",
+  },
+  {
+    year: "2020",
+    title: "Higher Education, CBSE",
+    desc: "Score: 86.2%",
+    booard: "CBSE",
+  }
 ];
 
+const RESUME_EXP = [
+  {
+    year: "Sept 2025 - Dec 2025",
+    title: "AI/ML Intern",
+    company: "Drublet Innovation Pvt. Ltd.",
+    location: "Incubated Centre at IIT Patna",
+    desc: "Worked on advanced machine learning models and AI implementations within an academic research environment.", //
+  },
+  {
+    year: "July 2025 - July 2025",
+    title: "Data Science Intern",
+    company: "Prodigy Infotech",
+    desc: "Applied data analysis techniques and built predictive models during a focused internship period.", //
+  }
+];
 // blog posts; duplicates removed to avoid rendering the same card multiple times
 const BLOGS: Certfications[] = [
   { date: "Nov 16, 2025", cat: "Cisco Networking Academy",   title: "Discovering Enterpreneurship",         color: "#0f3460" },
@@ -646,41 +669,49 @@ export default function Portfolio(): JSX.Element {
         </div>
       </section>
 
-      {/* ── TIMELINE ─────────────────────────────────────────────────────────── */}
-      <section id="resume" style={{ padding: SP, background: "#fff" }}>
-        <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          <SectionHeader sub="My Journey" title="Resume & Experience" />
-          <div style={{ position: "relative" }}>
-            {!isMobile && <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, background: "#f0f0f0", transform: "translateX(-50%)" }} />}
-            {isMobile  && <div style={{ position: "absolute", left: 7, top: 0, bottom: 0, width: 2, background: "#f0f0f0" }} />}
-
-            {TIMELINE.map((t, i) => (
-              <Reveal key={i} delay={i * .07}>
-                {isMobile ? (
-                  <div style={{ display: "flex", gap: "1.1rem", marginBottom: "1.7rem", paddingLeft: ".15rem" }}>
-                    <div style={{ width: 16, height: 16, borderRadius: "50%", background: RED, border: "3px solid #fff", boxShadow: `0 0 0 3px ${RED}33`, flexShrink: 0, marginTop: ".2rem" }} />
-                    <div style={{ paddingLeft: ".4rem" }}>
-                      <div style={{ fontWeight: 700, fontSize: ".93rem" }}>{t.title}</div>
-                      <div style={{ color: "#6b7280", fontSize: ".81rem" }}>{t.sub}</div>
-                      <div style={{ color: RED, fontSize: ".76rem", fontWeight: 700, marginTop: ".2rem" }}>{t.year}</div>
-                    </div>
-                  </div>
-                ) : (
-                  <div style={{ display: "flex", alignItems: "center", marginBottom: "2.2rem", flexDirection: t.side === "left" ? "row" : "row-reverse", gap: "2rem" }}>
-                    <div style={{ flex: 1, textAlign: t.side === "left" ? "right" : "left" }}>
-                      <div style={{ fontWeight: 700, fontSize: ".95rem", marginBottom: ".2rem" }}>{t.title}</div>
-                      <div style={{ color: "#6b7280", fontSize: ".82rem" }}>{t.sub}</div>
-                      <div style={{ color: RED, fontSize: ".76rem", fontWeight: 700, marginTop: ".2rem" }}>{t.year}</div>
-                    </div>
-                    <div style={{ width: 16, height: 16, borderRadius: "50%", background: RED, border: "3px solid #fff", boxShadow: `0 0 0 3px ${RED}33`, flexShrink: 0, zIndex: 1 }} />
-                    <div style={{ flex: 1 }} />
-                  </div>
-                )}
-              </Reveal>
-            ))}
+      {/* ── RESUME SECTION ─────────────────────────────────────────────────── */}
+<section id="resume" style={{ padding: SP }}>
+  <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+    <SectionHeader sub="My Journey" title="Resume" />
+    
+    <div style={{ 
+      display: "grid", 
+      gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", 
+      gap: "3rem" 
+    }}>
+      
+      {/* Left Side: Education */}
+      <div>
+        <h3 style={{ marginBottom: "2rem", color: RED, fontSize: "1.5rem" }}>Education</h3>
+        {RESUME_EDU.map((item, i) => (
+          <div key={i} style={{ borderLeft: `2px solid ${RED}`, paddingLeft: "1.5rem", marginBottom: "2rem", position: "relative" }}>
+            <div style={{ position: "absolute", left: -6, top: 0, width: 10, height: 10, borderRadius: "50%", background: RED }} />
+            <span style={{ fontSize: ".8rem", color: "#6b7280", fontWeight: 600 }}>{item.year}</span>
+            <h4 style={{ margin: ".5rem 0", fontSize: "1.1rem" }}>{item.title}</h4>
+            <p style={{ fontSize: ".9rem", color: "#4b5563" }}>{item.desc}</p>
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+
+      {/* Right Side: Experience */}
+      <div>
+        <h3 style={{ marginBottom: "2rem", color: RED, fontSize: "1.5rem" }}>Experience</h3>
+        {RESUME_EXP.map((item, i) => (
+          <div key={i} style={{ borderLeft: `2px solid ${RED}`, paddingLeft: "1.5rem", marginBottom: "2rem", position: "relative" }}>
+            <div style={{ position: "absolute", left: -6, top: 0, width: 10, height: 10, borderRadius: "50%", background: RED }} />
+            <span style={{ fontSize: ".8rem", color: "#6b7280", fontWeight: 600 }}>{item.year}</span>
+            <h4 style={{ margin: ".5rem 0", fontSize: "1.1rem" }}>{item.title}</h4>
+            <p style={{ fontSize: ".9rem", fontWeight: 600, color: "#1f2937", marginBottom: ".25rem" }}>
+               {item.company} | {item.location || "Remote"}
+            </p>
+            <p style={{ fontSize: ".9rem", color: "#4b5563" }}>{item.desc}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* ── BLOG ─────────────────────────────────────────────────────────────── */}
       <section style={{ background: "#f8fafc", padding: SP }}>
