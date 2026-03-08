@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import type { ReactNode, JSX } from "react";
 import { FaLinkedinIn, FaGithub, FaEnvelope } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
+
+//run once on app startup
+emailjs.init("TlNGZy7GeYnhHV3Jp");
 
 // ── Window width hook (drives ALL responsive logic) ────────────────────────────
 function useWindowWidth(): number {
@@ -315,7 +319,24 @@ export default function Portfolio(): JSX.Element {
 
   // derive filter categories from the data so they stay in sync
   const filterCategories = ["All", ...Array.from(new Set(PORTFOLIO_ITEMS.map(p => p.category)))];
+  const form = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState("");
 
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("Sending...");
+
+    // Replace these strings with your actual EmailJS IDs
+    emailjs.sendForm('service_dmgsvjbc', 'template_ili0enk', form.current!, 'TlNGZy7GeYnhHV3Jp')
+      .then(() => {
+        setStatus("Message sent successfully!");
+        form.current?.reset();
+      }, (error) => {
+        setStatus("Failed to send. Please try again.");
+        console.log(error.text);
+        console.error("EmailJS error:", error);
+      });
+  };
 
   
   return (
@@ -353,7 +374,6 @@ export default function Portfolio(): JSX.Element {
         .mob-lnk:hover{color:${RED}}
       `}</style>
 
-      {/* ── NAVBAR ───────────────────────────────────────────────────────────── */}
       <nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
         background: scrolled ? "rgba(12,12,18,.96)" : "transparent",
@@ -527,7 +547,7 @@ export default function Portfolio(): JSX.Element {
           </div>
         )}
       </section>
-
+      
       {/* ── ABOUT ────────────────────────────────────────────────────────────── */}
       <section id="about" style={{ padding: SP }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", gap: isMobile ? "2.5rem" : "4rem", alignItems: "center", flexDirection: isMobile ? "column" : "row", flexWrap: "wrap" }}>
@@ -581,7 +601,7 @@ export default function Portfolio(): JSX.Element {
                   </div>
                 ))}
               </div>
-</Reveal>
+            </Reveal>
             <Reveal delay={.2}>
               <button className="br" onClick={() => {
                 const link = document.createElement("a");
@@ -744,15 +764,21 @@ export default function Portfolio(): JSX.Element {
         <div style={{ maxWidth: 680, margin: "0 auto" }}>
           <SectionHeader sub="Get in Touch" title="Contact Us" />
           <Reveal delay={.1}>
-            <div style={{ display: "grid", gridTemplateColumns: contactCols, gap: "1rem" }}>
-              <input className="inp" placeholder="Your Name" />
-              <input className="inp" placeholder="Your Email" type="email" />
-              <input className="inp" placeholder="Subject" style={{ gridColumn: "1 / -1" }} />
-              <textarea className="inp" placeholder="Your Message" rows={5} style={{ gridColumn: "1 / -1", resize: "vertical" }} />
-            </div>
-            <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-              <button className="br" style={{ padding: "14px 48px", fontSize: "1rem", boxShadow: "0 8px 28px rgba(232,28,46,.3)" }}>Send Message ✉</button>
-            </div>
+            {/* wrap inputs in actual form so status is useful and sendEmail runs */}
+            <form ref={form} onSubmit={sendEmail}>
+              <div style={{ display: "grid", gridTemplateColumns: contactCols, gap: "1rem" }}>
+                <input name="user_name" className="inp" placeholder="Your Name" />
+                <input name="user_email" className="inp" placeholder="Your Email" type="email" />
+                <input name="subject" className="inp" placeholder="Subject" style={{ gridColumn: "1 / -1" }} />
+                <textarea name="message" className="inp" placeholder="Your Message" rows={5} style={{ gridColumn: "1 / -1", resize: "vertical" }} />
+              </div>
+              <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
+                <button type="submit" className="br" style={{ padding: "14px 48px", fontSize: "1rem", boxShadow: "0 8px 28px rgba(232,28,46,.3)" }}>Send Message ✉</button>
+              </div>
+              {status && (
+                <p style={{ marginTop: "1rem", color: RED, textAlign: "center" }}>{status}</p>
+              )}
+            </form>
           </Reveal>
         </div>
       </section>
